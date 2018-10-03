@@ -11,6 +11,7 @@ def open_and_read_file(file_path):
     """
 
     # your code goes here
+
     text_source = open(file_path)
     file_as_string = text_source.read()
     return file_as_string   
@@ -40,58 +41,21 @@ def make_chains(text_string):
         [None]
     """
     bigrams_with_following_text = {}
+ 
     words = text_string.split()
     bigram_values = []
     word_index = 0
 
-    print(words)
-    for word_index in range(len(words) - 1):
-        while word_index < len(words) - 2:
-            # pdb.set_trace()
-            #bigram_values.append(words[word_index + 2])
-            diction_keys = (words[word_index], words[word_index + 1])
-            bigrams_with_following_text[diction_keys] += [words[word_index + 2]]
-            # bigrams_with_following_text[(words[word_index], words[word_index + 1])] += [words[word_index + 2]]
-            
+   
+    # minus two because index out of range for later use
+    for word_index in range(len(words) - 2):
+        word_pairs = tuple((words[word_index], words[word_index + 1]))
+        
+        value = bigrams_with_following_text.get(word_pairs, [])
+        value.append(words[word_index + 2])
+        bigrams_with_following_text[word_pairs] = value 
 
-            #if word1 and word2 == key, append word3 to key list
-            word_index += 1
-    print(bigrams_with_following_text)
-
-    # for key, value in bigrams_with_following_text.items():
-    #     print(key, value)
-    #     bigrams_with_following_text[key].append("ba")
-       
-
-            
-            
-    #print(bigrams_with_following_text.keys()) 
-        #pdb.set_trace()
-    
-    #print(bigrams_with_following_text)
-       
-
-
-
-
-
-    # chains = {}
-    # chain_keyes = []
-    # # your code goes here
-    # words = text_string.split()
-    # for word_index in range(len(words)-1):
-    #     pdb.set_trace()
-    #     #chain_keyes.append((words[word_index], words[word_index + 1]))
-    #     words_keys = chains.keys()
-    #     chains.get(chain_keyes,0)
-    #     # chains.get((words[word_index], words[word_index + 1]), words[word_index + 2])
-
-    #     print(chains)
-    #     # print("This is a set of two: {} {}".format(words[word_index],words[word_index+1]))
-    #     print(chain_keyes)
-    # return chains
-
-
+    return bigrams_with_following_text
 
 
 def make_text(chains):
@@ -108,11 +72,12 @@ input_path = "green-eggs.txt"
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
+#pdb.set_trace()
 
 # Get a Markov chain
 chains = make_chains(input_text)
 
 # Produce random text
-random_text = make_text(chains)
+#random_text = make_text(chains)
 
-print(random_text)
+#print(random_text)
