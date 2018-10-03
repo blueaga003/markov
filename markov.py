@@ -54,7 +54,7 @@ def make_chains(text_string):
         value = bigrams_with_following_text.get(word_pairs, [])
         value.append(words[word_index + 2])
         bigrams_with_following_text[word_pairs] = value 
-
+    
     return bigrams_with_following_text
 
 
@@ -62,10 +62,23 @@ def make_text(chains):
     """Return text from chains."""
 
     words = []
+    #unigrams_with_following_text = {}
 
     # your code goes here
+    #for each tuple combination, we want to pull the second word in the tuple and append it to the list
+    # then we chose a random word from the inital tuple combination and append it to the new list
+    # from there we look up the new tuple combination in the dictionary (combination of second word in first tuple
+    # and random word from list) and repeat.
 
-    return " ".join(words)
+
+    for word in chains:
+        words.append(word[1])
+        choice(chains[word])
+        word_pairs = (word[1], choice(chains[word]))
+        if word_pairs in chains.keys():
+            print(chains[word_pairs])
+        else:
+            return " ".join(words)
 
 
 input_path = "green-eggs.txt"
@@ -75,9 +88,9 @@ input_text = open_and_read_file(input_path)
 #pdb.set_trace()
 
 # Get a Markov chain
-chains = make_chains(input_text)
-
+chains_in_dictionary_format = make_chains(input_text)
+make_text(chains_in_dictionary_format)
 # Produce random text
-#random_text = make_text(chains)
-
+random_text = make_text(chains_in_dictionary_format)
+print(random_text)
 #print(random_text)
